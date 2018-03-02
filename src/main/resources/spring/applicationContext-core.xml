@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:task="http://www.springframework.org/schema/task" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/mvc
+           http://www.springframework.org/schema/mvc/spring-mvc.xsd 
+            http://www.springframework.org/schema/util 
+           http://www.springframework.org/schema/util/spring-util-3.0.xsd
+           http://www.springframework.org/schema/context           
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/task  
+           http://www.springframework.org/schema/task/spring-task-3.1.xsd">
+           
+    <import resource="classpath:spring/applicationContext-dataSource.xml"/>
+    
+    <!-- 系统基础配置 -->
+    <bean
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <!-- 忽略占位符异常 -->
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+        <!-- 在解析一个占位符的时候，会先用系统属性来尝试，然后才会用指定的属性文件-->
+        <property name="ignoreResourceNotFound" value="true" />
+    </bean>
+
+    <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+
+
+
+    <!--需要扫描的包  -->
+    <context:component-scan base-package="com.chinasofti.*" />
+    <task:annotation-driven/>
+    <util:properties  id="velocityConf" location="classpath:message.properties"></util:properties>  
+ 		  <bean id="reloadableResourceBundleMessageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+			<!-- 国际化信息所在的文件名 -->
+			 <property name="defaultEncoding" value="iso-8859-1" />  
+        <property name="useCodeAsDefaultMessage" value="true" />  
+        <property name="cacheSeconds" value="10"></property>  
+			<property name="basenames">
+				<list>
+					<value>classpath:whitelist</value>
+				</list>
+			</property>
+		</bean>
+</beans>

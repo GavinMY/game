@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/mvc
+           http://www.springframework.org/schema/mvc/spring-mvc.xsd 
+           http://www.springframework.org/schema/context 
+           http://www.springframework.org/schema/context/spring-context.xsd">
+    
+
+    <!-- activates annotation driven binding -->
+    <!-- 简写的配置标记，自动注册其中的bean -->
+    <mvc:annotation-driven>
+        <!-- 允许注册实现了HttpMessageConverter接口的bean，来对requestbody 或responsebody中的数据进行解析 -->
+        <mvc:message-converters>
+            <bean
+                class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+            <bean
+                class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
+            <bean
+                class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+            <bean class="org.springframework.http.converter.FormHttpMessageConverter" />
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter" />
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+        in the /WEB-INF/views directory -->
+    <bean id="viewResolver"
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <context:component-scan base-package="com.chinasofti" />
+    <context:annotation-config />
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"></bean> 
+    <mvc:default-servlet-handler/>   
+</beans>
